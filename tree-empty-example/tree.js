@@ -11,47 +11,51 @@ let leafColor;
 // flower
 let doesBloom;
 let bloomSize;
+let bloomSizeAverage = 50;
 let doesFlower = false;
 let flowerScale = 0.0;
 let flowerScaleT = 1.0;
 let flowerBright = 255;
 let flowerDelay;
-
 let flowerChance = 0.1;
+let flowerWidth = 10;
+let flowerHeight = 20;
+
 
 // leaf
 let leafRot;
 let leafScale = 0.0;
 let leafDelay;
+let leafLevel = 2;
+let leafChance = 0.3;
+let rotDecay = 1.1;
 
 let tree1;
 let tree2;
 
 
-  function Tree(len, size, rotRange, level, lengthRand, leafLevel, leafChance, bloomSizeAverage, rotDecay, mouseWind) {
+  function Tree(len, size, rotRange, level, lengthRand, mouseWind) {
     this.len = len * (1 + random(-lengthRand, lengthRand*50));
     this.size = size;
     this.level = level;
-    this.leafLevel = leafLevel;
-    this.leafChance = leafChance;
     this.windEnabled = windEnabled;
     this.mouseWind = mouseWind;
 
     this.rot = radians(random(-rotRange, rotRange));
 
-    if (level < this.leafLevel ) this.rot *= 0.3;
+    if (level < leafLevel ) this.rot *= 0.3;
     if (level == 0 ) this.rot = 0;
 
     windFactor = random(0.1, 1);
     doesBloom = false;
 
-    if (level >= this.leafLevel && random(1) < this.leafChance) doesBloom = true ;
+    if (level >= leafLevel && random(1) < leafChance) doesBloom = true ;
 
     bloomSize = random(bloomSizeAverage*0.7, bloomSizeAverage*1.3);
     leafRot = radians(random(-180, 180));
     flowerScaleT = random(0.8, 1.2);
     flowerDelay = round(random(200, 250));
-    leafDelay = round(random(50, 150));
+    leafDelay = random(50, 150);
     randomizeColor();
 
 
@@ -63,8 +67,8 @@ let tree2;
 
 
     if (level < levelMax) {
-        tree1 = new Tree(this.len*lengthDecay, this.size*sizeDecay, rr, level+1, lengthRand, this.leafLevel, this.leafChance, bloomSizeAverage, rotDecay);
-        tree2 = new Tree(this.len*lengthDecay, this.size*sizeDecay, rr, level+1, lengthRand, this.leafLevel, this.leafChance, bloomSizeAverage, rotDecay);
+        tree1 = new Tree(this.len*lengthDecay, this.size*sizeDecay, rr, level+1, lengthRand);
+        tree2 = new Tree(this.len*lengthDecay, this.size*sizeDecay, rr, level+1, lengthRand);
     }
 
     this.draw = function() {
@@ -73,7 +77,7 @@ let tree2;
       scale(s);
 
       push();
-        if (level >= this.leafLevel ) {
+        if (level >= leafLevel ) {
           stroke(165,42,42);
           // stroke(branchColor);
         } else {
@@ -85,7 +89,7 @@ let tree2;
         // console.log(windEnabled)
       if (!this.windEnabled) rotOffset = 0 ;
 
-      if (level >= this.leafLevel ) {
+      if (level >= leafLevel ) {
         stroke(165,42,42);
         // stroke(branchColor);
       } else {
@@ -93,7 +97,7 @@ let tree2;
       }
      rotate(this.rot + (rotOffset * 0.1 + this.mouseWind) * windFactor);
      line(0, 0, 0, -this.len);
-     // translate(0, -this.len);
+     translate(0, -this.len);
 
      // draw leaves
      if (doesBloom) {
@@ -105,6 +109,7 @@ let tree2;
           push();
           scale(leafScale);
           rotate(leafRot);
+          console.log(bloomSize);
           translate(1, bloomSize/2);
           ellipse(0, 0, bloomSize*bloomWidthRatio, bloomSize);
           pop();
@@ -115,7 +120,7 @@ let tree2;
 
 
      // draw flowers
-     
+
      if (doesFlower && level > levelMax-3) {
 
         if (flowerDelay < 0) {
@@ -141,23 +146,27 @@ let tree2;
       }
   }
 
-     push();
-      if (tree1) tree1.draw();
-     pop();
 
-     push();
-      if (tree2) tree2.draw();
-     pop();
 
-     // pop();
-     this.randomizeColor = function() {
-       branchColor = (branchHue, round(random(170, 255)), round(random(100, 200)));
-       leafColor = (leafHue, leafSat, round(random(100, 255)));
+  if (tree1) {
+    push();
+      tree1.draw();
+    pop();
+  }
+
+  if (tree2) {
+    push();
+      tree2.draw();
+    pop();
+  }
+
+
+  this.randomizeColor = function() {
+       branchColor = color(branchHue, random(170, 255), random(100, 200));
+       leafColor = (leafHue, leafSat, random(100, 255));
        flowerBright = random(200, 255);
 
-
-     }
-
-     // if (tree1) tree1.randomizeColor();
-     // if (tree2) tree2.randomizeColor();
+       if (tree1) tree1.randomizeColor();
+       if (tree2) tree2.randomizeColor();
+  }
 }

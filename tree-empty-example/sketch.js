@@ -1,17 +1,17 @@
 let autoplay = false;
 let showFrameRate = false;
 let clearsBackground = true;
-let font;
+
 
 
 let rotRange = 10;
-let rotDecay = 1.1;
+// let rotDecay = 1.1;
 let sizeDecay = 0.7;
 let lengthDecay = 0.91
 let time = 0;
 let lengthRand = 1.0;
 let bloomWidthRatio = 0.6;
-let bloomSizeAverage = 15;
+// let bloomSizeAverage = 15;
 let mDamp = 0.00002;
 let wDamp = 0.003;
 let mFriction = 0.98;
@@ -27,13 +27,13 @@ let mouseWind = 0;
 let mouseWindV = 0;
 
 // leaf
-let leafChance = 0.3;
-let leafLevel = 2;
+// let leafChance = 0.3;
+// let leafLevel = 2;
 
 // flower
 // let flowerChance = 0.1;
-let flowerWidth = 10;
-let flowerHeight = 20;
+// let flowerWidth = 10;
+// let flowerHeight = 20;
 
 // colors
 let bgColor;
@@ -46,11 +46,9 @@ let flowerColor;
 
 function setup() {
   createCanvas(900, 900);
-
-
   colorMode(HSB);
   ellipseMode(CENTER);
-  // frameRate(3);
+
 
   randomize();
   reset();
@@ -58,9 +56,8 @@ function setup() {
 
 function reset() {
   background(bgColor);
-  tree = new Tree(startLength, startSize, rotRange, 50,
-    lengthRand, leafLevel, leafChance, bloomSizeAverage,
-    rotDecay, windEnabled, mouseWind);
+  tree = new Tree(startLength, startSize, rotRange, 10,
+    lengthRand, windEnabled, mouseWind);
 };
 
 function randomize() {
@@ -68,16 +65,16 @@ function randomize() {
   randomizeBackground();
   randomizeColor();
   rotRange = random(20, 60);
-  rotDecay = random(0.9, 1.1);
+  // rotDecay = random(0.9, 1.1);
   startLength = random(20, 80);
   startSize = round(random(3, 20));
   lengthRand = random(0.0, 0.2);
-  leafChance = random(0.3, 0.9);
+  // leafChance = random(0.3, 0.9);
   sizeDecay = random(0.6, 0.7);
   lengthDecay = map(startLength, 20, 80, 1.1, 0.85);
-  leafLevel = round(random(0, 4));
+  // leafLevel = round(random(0, 4));
   bloomWidthRatio = random(0.01, 0.9);
-  bloomSizeAverage = round(random(10, 40));
+  // bloomSizeAverage = round(random(10, 40));
 
   mDamp = 0.00002;
   wDamp = 0.005;
@@ -97,7 +94,7 @@ function randomizeColor() {
   leafHue = round(random(0, 255));
   leafSat = round(random(0, 255));
   flowerColor = round(random(255)), round(random(0, 255)), 255;
-  // if (tree) tree.randomizeColor();
+  if (tree) tree.randomizeColor();
 }
 
 function keyPressed() {
@@ -114,6 +111,7 @@ function mousePressed() {
   time = 0;
   randomize();
   reset();
+  if(tree) tree.randomize();
 }
 
 function displayFrameRatePS() {
