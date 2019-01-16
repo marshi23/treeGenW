@@ -1,3 +1,3 @@
 # treeGenW
 p5.js tree generator
-Recreating http://beautifulprogramming.com/infinite-arboretum/
+recreating http://beautifulprogramming.com/infinite-arboretum/
