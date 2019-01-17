@@ -47,7 +47,7 @@ let tree2;
     if (level == 0 ) this.rot = 0;
 
     windFactor = random(0.1, 1);
-    doesBloom = false;
+    doesBloom = true;
 
     if (level >= leafLevel && random(1) < leafChance) doesBloom = true ;
 

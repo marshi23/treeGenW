@@ -2,16 +2,12 @@ let autoplay = false;
 let showFrameRate = false;
 let clearsBackground = true;
 
-
-
 let rotRange = 10;
-// let rotDecay = 1.1;
 let sizeDecay = 0.7;
 let lengthDecay = 0.91
 let time = 0;
 let lengthRand = 1.0;
 let bloomWidthRatio = 0.6;
-// let bloomSizeAverage = 15;
 let mDamp = 0.00002;
 let wDamp = 0.003;
 let mFriction = 0.98;
@@ -20,20 +16,12 @@ let mFriction = 0.98;
 let tree;
 let startLength;
 let startSize;
+let level = 10;
 
 // wind
 let windEnabled = true;
 let mouseWind = 0;
 let mouseWindV = 0;
-
-// leaf
-// let leafChance = 0.3;
-// let leafLevel = 2;
-
-// flower
-// let flowerChance = 0.1;
-// let flowerWidth = 10;
-// let flowerHeight = 20;
 
 // colors
 let bgColor;
@@ -56,7 +44,7 @@ function setup() {
 
 function reset() {
   background(bgColor);
-  tree = new Tree(startLength, startSize, rotRange, 10,
+  tree = new Tree(startLength, startSize, rotRange, level,
     lengthRand, windEnabled, mouseWind);
 };
 
@@ -111,7 +99,7 @@ function mousePressed() {
   time = 0;
   randomize();
   reset();
-  if(tree) tree.randomize();
+  // if(tree) tree.randomize();
 }
 
 function displayFrameRatePS() {
@@ -131,7 +119,6 @@ function draw() {
     {
       time = 0;
       randomize();
-      // flowerChance = 0.1;
       reset();
     }
   }
